@@ -15,8 +15,7 @@ import os
 LABEL_COLORS_LIST = [
     [0, 0, 0],        # Class 0: black
     [128, 0, 0],      # Class 1: dark red
-    [0, 128, 0],      # Class 2: dark green
-    [128, 128, 0]     # Class 3: olive
+    [0, 128, 0]     # Class 2: dark green
 ]
 
 def convert_tif_to_png(tif_path, png_path):
