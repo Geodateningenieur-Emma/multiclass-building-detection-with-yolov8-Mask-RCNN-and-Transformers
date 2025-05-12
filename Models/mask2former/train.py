@@ -166,5 +166,5 @@ if __name__ == '__main__':
         out_dir
     )
     # Save final model.
-    save_model(model, out_dir, name='final_model')
+    save_model(model, out_dir, name='trained_model')
     print('TRAINING COMPLETE')
