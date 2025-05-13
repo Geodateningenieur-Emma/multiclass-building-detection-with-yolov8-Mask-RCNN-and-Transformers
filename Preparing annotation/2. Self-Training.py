@@ -5,6 +5,16 @@ We use a simple classification. A pre-trained yolo classifier. Install Ultralyti
 If you have imbalanced classes, consider using the Weighted Loss Function (you may follow through https://github.com/ultralytics/ultralytics/issues/2208). This was the case in our implementation. the high class contained few samples compared to low class.
 The modification is done by locating the YAML file example, C:\Program Files\Python312\Lib\site-packages\ultralytics\utils\loss and the __call__ method was customized to compute class-weighted cross-entropy loss using frequency-defined class weights ([2.4, 1.8]).
 
+class v8ClassificationLoss:
+    """Criterion class for computing training losses."""
+
+    def __call__(self, preds, batch):
+        """Compute the classification loss between predictions and true labels."""
+        class_weights =torch.tensor([2.4, 1.8]) # inversely proportional to the number of samples of each class
+        loss = F.cross_entropy(preds, batch["cls"], weight=class_weights)
+        #loss = F.cross_entropy(preds, batch["cls"], reduction="mean")
+        loss_items = loss.detach()
+        return loss, loss_items
 """
 ############################################### 1: TRAIN ON LABELLED FEW SAMPLES  #################################################################
 # Import required libraries 
