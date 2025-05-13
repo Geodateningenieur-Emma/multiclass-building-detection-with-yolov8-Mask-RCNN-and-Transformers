@@ -5,7 +5,7 @@ Buildings can exhibit significant variation in size, geometry, construction mate
 ***Pipeline Overview***  
 This repository implements a housing wealth mapping pipeline using a combination of a few expert annotations based on visual interpretation,self-training techniques, and multiclass instance segmentation with YOLO and Mask2Former. The project encompasses three major stages: annotation preparation, model training and inference, and result visualization.
 
-1. [PREPARING ANNOTATIONS](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/tree/main/prepare%20annotation)  
+1. [PREPARING ANNOTATIONS](https://github.com/enyandwi7/Housing-wealth-mapping-with-YOLO-and-Mask2Former-multiclass-instance-segmentation/tree/main/Preparing%20annotation)  
 This stage includes a multi-step process:
 - **Expert Annotation via Google Forms**
   - Collection of training set, images, and shapefile of buildings. We leveraged data from our previous [work](https://link.springer.com/article/10.1007/s41064-024-00297-9) 
@@ -14,16 +14,16 @@ This stage includes a multi-step process:
    
  - **Self-Training Using Pseudo-Labeling**    
 Due to scalability limitations in manual annotation:
-  - A [self-training approach was implemented using a YOLO classifier pre-trained on ImageNet](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/prepare%20annotation/2.%20Self-Training.py).
+  - A [self-training approach was implemented using a YOLO classifier pre-trained on ImageNet](https://github.com/enyandwi7/Housing-wealth-mapping-with-YOLO-and-Mask2Former-multiclass-instance-segmentation/blob/main/Preparing%20annotation/2.%20Self-Training.py).
   - Pseudo-labels were generated for unlabeled samples with a confidence threshold of 0.9, iterated over 3 cycles.
   - Final predictions (bID, class) were saved to a CSV and merged back with the original shapefile.
     
 - **Rasterisation and Label Conversion**  
-  - Vector building polygons were rasterised using this [script](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/prepare%20annotation/3.%20Shapefile2Multiclass%20grey%20image%20patches.py) to create label rasters aligned with input imagery (e.g., UAV or aerial images).
+  - Vector building polygons were rasterised using this [script](https://github.com/enyandwi7/Housing-wealth-mapping-with-YOLO-and-Mask2Former-multiclass-instance-segmentation/blob/main/Preparing%20annotation/3.%20Shapefile2Multiclass%20grey%20image%20patches.py) to create label rasters aligned with input imagery (e.g., UAV or aerial images).
   - The Retile GDAL CLI tool was used to generate image and label patches. To install GDAL just use the OSGeo4W Network Installer from [this website](https://trac.osgeo.org/osgeo4w/)
-  - Annotations were converted to formats compatible with yolo and Mask2Former using scripts that [convert grey raster images to YoloFormat](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/prepare%20annotation/4.1.%20LabeledMaskImageAnnotation2YoloFormat.py) and [convert grey raster image to classified rgb image](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/prepare%20annotation/4.2.%20grey%20image%20to%20classified%20image%20compatible%20to%20mask2former.py)
+  - Annotations were converted to formats compatible with yolo and Mask2Former using scripts that [convert grey raster images to YoloFormat](https://github.com/enyandwi7/Housing-wealth-mapping-with-YOLO-and-Mask2Former-multiclass-instance-segmentation/blob/main/Preparing%20annotation/4.1.%20LabeledMaskImageAnnotation2YoloFormat.py) and [convert grey raster image to classified rgb image](https://github.com/enyandwi7/Housing-wealth-mapping-with-YOLO-and-Mask2Former-multiclass-instance-segmentation/blob/main/Preparing%20annotation/4.2.%20grey%20image%20to%20classified%20image%20compatible%20to%20mask2former.py)
   
-2. [TRAINING AND INFERENCING](https://github.com/enyandwi7/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/tree/main/Training%20and%20inferencing):
+2. [TRAINING AND INFERENCING](https://github.com/enyandwi7/Housing-wealth-mapping-with-YOLO-and-Mask2Former-multiclass-instance-segmentation/tree/main/Training%20and%20inferencing):
 
    
    This stage involves training and evaluating deep learning models for detection and segmentation:  
