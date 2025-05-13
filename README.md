@@ -32,13 +32,13 @@ Due to scalability limitations in manual annotation:
   - [Training YOLO](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/Training/TrainYOLO.py). The mask2former is trained by running the training script as described [here](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/Training/Mask2Former).
 - **Inferencing**
   -Predictions were generated using:
-    - [Predict-YOLO.py](https://github.com/enyandwi7/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/Training%20and%20inferencing/Predict-YOLO.py)
-    - Running the inferencing script as described  [here](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/Training/Mask2Former).
+    - [Predict-YOLO.py](https://github.com/enyandwi7/Housing-wealth-mapping-with-YOLO-and-Mask2Former-multiclass-instance-segmentation/blob/main/Training%20and%20inferencing/TrainYOLO.py)
+    - Running the inferencing script as described  [here](https://github.com/enyandwi7/Housing-wealth-mapping-with-YOLO-and-Mask2Former-multiclass-instance-segmentation/blob/main/Training%20and%20inferencing/Mask2Former).
 - **Post-Processing**
-  - Predicted patches were georeferenced and mosaicked using this [notebook](https://github.com/enyandwi7/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/Training%20and%20inferencing/Batch%20georeferencing%20rasters.ipynb).   
+  - Predicted patches were georeferenced and mosaicked using this [notebook](https://github.com/enyandwi7/Housing-wealth-mapping-with-YOLO-and-Mask2Former-multiclass-instance-segmentation/blob/main/Training%20and%20inferencing/Batch%20georeferencing%20rasters.ipynb).   
   
-3. [VISUALISATION](https://github.com/enyandwi7/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/tree/main/Post%20processing%20and%20visualisation)  
+3. [VISUALISATION](https://github.com/enyandwi7/Housing-wealth-mapping-with-YOLO-and-Mask2Former-multiclass-instance-segmentation/tree/main/Visualisation)  
    In the final stage, model outputs were visualised and spatially aggregated to assess urban wealth patterns:
-In this [notebook](https://github.com/enyandwi7/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/Post%20processing%20and%20visualisation/100-meter%20gridded%20housing%20wealth%20pattern%20in%20Ruanda.ipynb), predictions are binned into 100x100 meter grids. Each grid is assigned a wealth score based on a weighted average of the predicted class area coverage, using weights derived from the average house values of the corresponding classes. The result is a highly detailed spatial heatmap representing housing wealth distribution, information that is critically needed by planners and other decision-makers of localised interventions.
+In this [notebook](https://github.com/enyandwi7/Housing-wealth-mapping-with-YOLO-and-Mask2Former-multiclass-instance-segmentation/blob/main/Visualisation/wealth2008-Current.jpg), predictions are binned into 100x100 meter grids. Each grid is assigned a wealth score based on a weighted average of the predicted class area coverage, using weights derived from the average house values of the corresponding classes. The result is [a highly detailed spatial heatmap representing housing wealth distribution in Kigali and Musanze cities in Rwanda](https://github.com/enyandwi7/Housing-wealth-mapping-with-YOLO-and-Mask2Former-multiclass-instance-segmentation/blob/main/Visualisation/wealth2008-Current.jpg), information that is critically needed by planners and other decision-makers of localised interventions.
 
 
