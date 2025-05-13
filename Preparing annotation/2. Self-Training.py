@@ -1,8 +1,8 @@
 
 """
 Self-training process. 
-we use simply a classify. A pre-trained yolo classifier. install ultralytics by following instructions here:
-For data structure follow ultralytics. 
+We use a simple classification. A pre-trained yolo classifier. Install Ultralytics by following the instructions from https://docs.ultralytics.com/
+If you have imbalanced classes, consider using the Weighted Loss Function. 
 
 """
 ############################################### 1: TRAIN ON LABELLED FEW SAMPLES  #################################################################
