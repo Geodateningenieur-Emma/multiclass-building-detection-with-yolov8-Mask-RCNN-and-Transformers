@@ -2,7 +2,8 @@
 """
 Self-training process. 
 We use a simple classification. A pre-trained yolo classifier. Install Ultralytics by following the instructions from https://docs.ultralytics.com/
-If you have imbalanced classes, consider using the Weighted Loss Function. 
+If you have imbalanced classes, consider using the Weighted Loss Function (you may follow through https://github.com/ultralytics/ultralytics/issues/2208). This was the case in our implementation. the high class contained few samples compared to low class.
+The modification is done by locating the YAML file example, C:\Program Files\Python312\Lib\site-packages\ultralytics\utils\loss and the __call__ method was customized to compute class-weighted cross-entropy loss using frequency-defined class weights ([2.4, 1.8]).
 
 """
 ############################################### 1: TRAIN ON LABELLED FEW SAMPLES  #################################################################
