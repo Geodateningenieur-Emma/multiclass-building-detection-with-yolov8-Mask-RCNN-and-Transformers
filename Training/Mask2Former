@@ -27,6 +27,7 @@ Root_dir
 └── utils.py
 
 To train your model, after you have installed Mask2Former, just 
-1. Activate the mask2former environment using conda: e.g., conda activate mask2former
-2. Use the cd command to get inside the root_dir, eg, cd root_dir
-3. Use a command line to train: python train.py --batch 4 --imgsz 640 640 --lr 0.0001 --epochs 100
+- Item 1 Activate the mask2former environment using conda: e.g., conda activate mask2former
+- Item 2 Use the cd command to get inside the root_dir, eg, cd root_dir
+- Item 3 Use a command line to train: python train.py --batch 4 --imgsz 640 640 --lr 0.0001 --epochs 100
+- Item 4 Use a command line to predict: e.g. python predictParallel.py --input root_path/input/inferencing/images --device cpu --imgsz 640 640 --model outputs/trained_model
