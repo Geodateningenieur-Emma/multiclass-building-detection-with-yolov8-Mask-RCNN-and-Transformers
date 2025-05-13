@@ -9,7 +9,7 @@ This repository implements a housing wealth mapping pipeline using a combination
 This stage includes a multi-step process:
 - **Expert Annotation via Google Forms**
   - Collection of training set, images, and shapefile of buildings. We leveraged data from our previous [work](https://link.springer.com/article/10.1007/s41064-024-00297-9) 
-  - [Generating roof crops](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/prepare%20annotation/1.%20Get%20roof%20crops.py), of which a few samples were sent to experts via an online Google form for annotation. Each building polygon was assigned a unique identifier (bID) to track responses and merge class labels back into the original shapefile.
+  - [Generating roof crops](https://github.com/enyandwi7/Housing-wealth-mapping-with-YOLO-and-Mask2Former-multiclass-instance-segmentation/blob/main/Preparing%20annotation/1.%20Get%20roof%20crops.py), of which a few samples were sent to experts via an online Google form for annotation. Each building polygon was assigned a unique identifier (bID) to track responses and merge class labels back into the original shapefile.
   - Experts were asked to classify each building's wealth level = Low and 2 = High.
    
  - **Self-Training Using Pseudo-Labeling**    
