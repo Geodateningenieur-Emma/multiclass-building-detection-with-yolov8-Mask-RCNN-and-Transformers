@@ -1,25 +1,44 @@
 # Housing wealth mapping using multiclass-building-detection -with-YOLO and-Mask2Former
 
-Buildings can vary significantly in size, shape, material, or usage and value.
-Multi-class building detection refers to the process of detecting and classifying buildings into multiple categories, typically based on their attributes or characteristics. 
-This is an advanced step beyond binary building detection and has several practical applications, particularly in urban planning and development assessment.
+Buildings can exhibit significant variation in size, geometry, construction materials, function, and economic value. Here we present a Multi-class building detection pipeline in which state-of-the-art deep learning instance segmentation models are trained not only to identify the presence of buildings in imagery or spatial data but also to classify them into distinct categories based on the above attributes. This goes beyond traditional binary building detection, which merely distinguishes between building and non-building pixels or regions to enable more granular analysis and supports a wide range of real-world applications, including urban planning, infrastructure management, disaster response, and socio-economic assessment.
 
-Our implementation follows the following steps 
+***Pipeline Overview***  
+This repository implements a housing wealth mapping pipeline using a combination of a few expert annotations based on visual interpretation,self-training techniques, and multiclass instance segmentation with YOLO and Mask2Former. The project encompasses three major stages: annotation preparation, model training and inference, and result visualization.
 
-1. [Preparing annotation](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/tree/main/prepare%20annotation)  
-   This includes several steps:  
-   - Crop roof patches, which were sent to experts via an online Google form for annotation.
-   The [code](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/prepare%20annotation/1.%20Get%20roof%20crops.py) loops through all building polygons and uses the geometry to crop the image to the extent of the roof.
-   Each building in the building shapefile was assigned a unique identifier (bID) that allows tracking it and joining its class from experts to the original shapefile. 
-   experts were tasked to tell which wealth class the building likely represents (1: Low, 2: High).   
-   - Self-training leveraging a few experts' annotations. To label all the buildings in our training set
-   (It is impossible to make a Google form with tens of thousands of image patches). We used this [code](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/prepare%20annotation/2.%20Self-Training.py): a YOLO classifier pre-trained on Imagenet was used to generate pseudo labels, selecting only candidates with a confidence of 0.9, for 3 iterations. The final model was applied to label all buildings in the sample area.  We predicted the wealth class for each roof crop and saved the results to a CSV, providing details of each crop(bID, class), and then joined it to the shapefile. 
- - Converting a shapefile to the multiclass gray image. The [code](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/prepare%20annotation/3.%20Shapefile2Multiclass%20grey%20image%20patches.py) rasterises the vector building polygons and creates label raster of the same dimension as original image (e.g UAV, aerial image that need to annotate). Use GDAL Command Line Interface (CLI) to generate patches (of both original  and label). original images and corresponding classified building label images were then converted to [YOLO-ANNOTATION](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/prepare%20annotation/4.1.%20LabeledMaskImageAnnotation2YoloFormat.py) and [Mask2Former-ANNOTATION](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/prepare%20annotation/4.2.%20grey%20image%20to%20classified%20image%20compatible%20to%20mask2former.py)
-
-2. Training and inferencing:
-   - First, we installed [YOLO from Ultralytics](https://docs.ultralytics.com/de/quickstart/) and [Mask2Former](https://arxiv.org/abs/2112.01527) following a [tutorial](https://debuggercafe.com/multi-class-segmentation-using-mask2former/) by Sovit Ranjan Rath (2024). This [code](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/Training/TrainYOLO.py). The mask2former is trained by running the training script as described [here](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/Training/Mask2Former).
-   - Inference 
-
+1. [PREPARING ANNOTATIONS](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/tree/main/prepare%20annotation)  
+This stage includes a multi-step process:
+- **Expert Annotation via Google Forms**
+  - Collection of training set, images, and shapefile of buildings. We leveraged data from our previous [work](https://link.springer.com/article/10.1007/s41064-024-00297-9) 
+  - [Generating roof crops](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/prepare%20annotation/1.%20Get%20roof%20crops.py), of which a few samples were sent to experts via an online Google form for annotation. Each building polygon was assigned a unique identifier (bID) to track responses and merge class labels back into the original shapefile.
+  - Experts were asked to classify each building's wealth level = Low and 2 = High.
+   
+ - **Self-Training Using Pseudo-Labeling**    
+Due to scalability limitations in manual annotation:
+  - A [self-training approach was implemented using a YOLO classifier pre-trained on ImageNet](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/prepare%20annotation/2.%20Self-Training.py).
+  - Pseudo-labels were generated for unlabeled samples with a confidence threshold of 0.9, iterated over 3 cycles.
+  - Final predictions (bID, class) were saved to a CSV and merged back with the original shapefile.
+    
+- **Rasterisation and Label Conversion**  
+  - Vector building polygons were rasterised using this [script](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/prepare%20annotation/3.%20Shapefile2Multiclass%20grey%20image%20patches.py) to create label rasters aligned with input imagery (e.g., UAV or aerial images).
+  - The Retile GDAL CLI tool was used to generate image and label patches. To install GDAL just use the OSGeo4W Network Installer from [this website](https://trac.osgeo.org/osgeo4w/)
+  - Annotations were converted to formats compatible with yolo and Mask2Former using scripts that [convert grey raster images to YoloFormat](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/prepare%20annotation/4.1.%20LabeledMaskImageAnnotation2YoloFormat.py) and [convert grey raster image to classified rgb image](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/prepare%20annotation/4.2.%20grey%20image%20to%20classified%20image%20compatible%20to%20mask2former.py)
   
-5. Binning predictions in grids of 100x100 meter
+2. [TRAINING AND INFERENCING](https://github.com/enyandwi7/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/tree/main/Training%20and%20inferencing):
+
+   
+   This stage involves training and evaluating deep learning models for detection and segmentation:  
+- **Environment Setup**  
+  - Installed YOLO [Ultralytics](https://docs.ultralytics.com/de/quickstart/) and Mask2Former following this [tutorial](https://debuggercafe.com/multi-class-segmentation-using-mask2former/) by Sovit Ranjan Rath (2024).
+  - [Training YOLO](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/Training/TrainYOLO.py). The mask2former is trained by running the training script as described [here](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/Training/Mask2Former).
+- **Inferencing**
+  -Predictions were generated using:
+    - [Predict-YOLO.py](https://github.com/enyandwi7/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/Training%20and%20inferencing/Predict-YOLO.py)
+    - Running the inferencing script as described  [here](https://github.com/Geodateningenieur-Emma/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/Training/Mask2Former).
+- **Post-Processing**
+  - Predicted patches were georeferenced and mosaicked using this [notebook](https://github.com/enyandwi7/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/Training%20and%20inferencing/Batch%20georeferencing%20rasters.ipynb).   
+  
+3. [VISUALISATION](https://github.com/enyandwi7/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/tree/main/Post%20processing%20and%20visualisation)  
+   In the final stage, model outputs were visualised and spatially aggregated to assess urban wealth patterns:
+  - In this [notebook](https://github.com/enyandwi7/multiclass-building-detection-with-yolov8-Mask-RCNN-and-Transformers/blob/main/Post%20processing%20and%20visualisation/100-meter%20gridded%20housing%20wealth%20pattern%20in%20Ruanda.ipynb), predictions are binned into 100x100 meter grids. Each grid is assigned a wealth score using a weighted average of the predicted class frequencies. The result is a highly detailed spatial heatmap representing housing wealth distribution, information that is critically needed by planners and other decision-makers of localised interventions.
+
 
