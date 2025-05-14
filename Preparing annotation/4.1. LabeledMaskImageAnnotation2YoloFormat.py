@@ -4,19 +4,19 @@ Created on Fri May  2 08:42:12 2025
 
 @author: enyandwi7@gmail.com
 
-THIS CODE CONVERT LABELED MASK IMAGE ANNOTATION TO YOLOFORMAT
+THIS CODE CONVERTS LABELED MASK IMAGE ANNOTATION TO YOLO FORMAT
 
-1. CREATE COCO JSON FORMAT
+1. CREATE A COCO JSON FORMAT
 2: CREATE YOLO FORMAT 
 
 
 """
 ##################################################################################################################
 """
-1: adapted from Sreni, https://youtu.be/R-N-YXzvOmY; this code, we will convert our labeled mask image annotations to coco json 
-format so they can be used in training Detectron2 (or Mask R-CNN).. 
+1: adapted from Sreni, https://youtu.be/R-N-YXzvOmY; 
+with this code, we will convert our labeled mask image annotations to COCO JSON 
+format so they can be used in training Detectron2 (or Mask R-CNN). 
 """
-
 import os
 import cv2
 import numpy as np
@@ -24,7 +24,7 @@ import json
 import shutil
 from sklearn.model_selection import train_test_split
 
-data_dir = './trainSet' # folder that contains subfolder for images and a subfolder for labels 
+data_dir = './trainSet' # folder that contains a subfolder for images and a subfolder for labels 
 
 def get_image_mask_pairs(data_dir):
     image_dir = os.path.join(data_dir, 'images')
@@ -124,16 +124,16 @@ if __name__ == '__main__':
 # https://youtu.be/R-N-YXzvOmY
 
 """
-2: Now transform coco annotations dataset into a format suitable 
+2: Now transform COCO annotations dataset into a format suitable 
 for training a YOLO (You Only Look Once) object detection model, and it also 
 creates a YAML configuration file required for training the model.
 
-It reads coco style json annotations supplied as a single json file and also 
+It reads coco style json annotations supplied as a single json file, and also 
 images as input. 
 
 Here are the key steps in the code:
 
-1. The convert_to_yolo function takes paths for 
+a. The convert_to_yolo function takes paths for 
 input images and annotations (in JSON format), and directories to store the 
 output images and labels. It then performs the following operations:
 
@@ -144,7 +144,7 @@ them to text files, mapping them to the appropriate category
 (e.g., Alpha, Cells, Mito, Vessels).
 - The resulting text files contain information about the object category and the normalized coordinates of the polygons that describe the objects.
 
-2. Create YAML Configuration File: The create_yaml function takes paths to the input JSON file containing categories, training, validation, and optional test paths. It then:
+b. Create YAML Configuration File: The create_yaml function takes paths to the input JSON file containing categories, training, validation, and optional test paths. It then:
 
 - Extracts the category names and the number of classes.
 - Constructs a dictionary containing information about class names, the number 
@@ -152,7 +152,7 @@ of classes, and paths to the training, validation, and test datasets.
 - Writes this dictionary to a YAML file, which can be used as a configuration 
 file for training a model (e.g., a YOLO model).
     
-The text annotation file consists of lines representing individual object 
+The text annotation file consists of lines representing individual objects 
 annotations, with each line containing the class ID followed by the normalized 
 coordinates of the polygon describing the object.
 
@@ -160,7 +160,6 @@ Example structure of the YOLO annotation file:
 
 <class_id> <normalized_polygon_coordinate_1> <normalized_polygon_coordinate_2> ... <normalized_polygon_coordinate_n>
 0 0.123456 0.234567 0.345678 0.456789 ...
-
 """
 
 #import necessary libraries. 
