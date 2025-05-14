@@ -5,7 +5,7 @@ Created on Tue Apr  2 11:54:06 2024
 
 @author: enyandwi7@gmail.com
 
-THIS CODE IS USED TO CONVERT SHAPEFILE TO MULTI CLASS IMAGE PATCHES: 
+THIS CODE IS USED TO CONVERT SHAPEFILE TO A MULTI-CLASS GRAY IMAGE. 
     
 """
 
@@ -19,12 +19,12 @@ import os
 
 # Paths to your files
 
-os.chdir('Folder') # add the folder that contains your image and shapefile here 
+os.chdir('rootDir') # add the folder that contains your image and shapefile here 
 image_path = "./image.tif"  # Path to your raster image
 shapefile_path = "./shapefile.shp"  # Path to your shapefile
 output_raster_path = "./label.tif"  # Path to save the output raster
 
-# Load the image to get the geotransform and dimensions. the label should have the same height and with as image
+# Load the image to get the geotransform and dimensions. The label should have the same height as the image
 with rasterio.open(image_path) as src:
     image_meta = src.meta.copy()
     transform = src.transform
@@ -60,15 +60,15 @@ print(f"Rasterized shapefile saved to {output_raster_path}")
 #################retile#####################################################
 
 '''
-use gdal command line interface (CLI) to generate patch from rasterised image.
-simply download and install OSGEO4W.https://trac.osgeo.org 
+Use the GDAL command line interface (CLI) to generate a patch from the rasterised image.
+Simply download and install OSGEO4W.https://trac.osgeo.org 
 
 Locate the OSGeo4W installation folder on C and run the Windows Batch File (.bat)
-use cd shell command to changes the working directory: where your image and label are stored
+Use the cd shell command to change the working directory, where your image and label are stored
 
-now create patches for image and label:
+Now create patches for the image and label:
 gdal_retile.py -ot Byte -ps 640 640 -of PNG -targetDir "DirImage" image.tif
-gdal_retile.py -ot Byte -ps 640 640 -of PNG -targetDir "DirLabel" label.tif. here ensure both image and label are named the same
+gdal_retile.py -ot Byte -ps 640 640 -of PNG -targetDir "DirLabel" label.tif. Here ensure both image and label are named the same
 
-You may need to cleanup the dataset by deleting patches which do not meet the standards size
+You may need to clean up the dataset by deleting patches that do not meet the standard size
 '''
