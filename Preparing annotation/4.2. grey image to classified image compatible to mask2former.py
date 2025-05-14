@@ -3,21 +3,21 @@
 Created on Tue Oct  8 10:48:52 2024
 
 @author: enyan
-remap classes: convert grey image to classified images compatible to mask2former
+Remap classes: convert grey image to classified RGB images for training mask2former
+Hint: check the data used here: https://debuggercafe.com/multi-class-segmentation-using-mask2former/
 """
 
-#import neccessary libraries 
+#Import necessary libraries 
 import numpy as np
 from PIL import Image
 import os
 
 # Define the color mapping according to the LABEL_COLORS_LIST
 LABEL_COLORS_LIST = [
-    [0, 0, 0],       # Class 0: black for background 
-    [179, 179, 255], # Class 1: Blue for high wealth 
-    [204, 0, 0]      # Class 2: red for visibly poor house
-]
-
+                    [0, 0, 0],       # Class 0: black for background 
+                    [204, 0, 0],     # Class 1: red for visibly poor house  
+                    [179, 179, 255]  # Class 2: Blue for high wealth      
+                    ]
 def convert_tif_to_png(tif_path, png_path):
     """Convert a single TIFF image to PNG with colored labels."""
     # Read the TIFF image (assuming it's 16-bit)
