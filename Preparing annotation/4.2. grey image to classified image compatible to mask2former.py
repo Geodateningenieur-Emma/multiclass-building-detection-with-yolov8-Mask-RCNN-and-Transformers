@@ -12,7 +12,7 @@ import numpy as np
 from PIL import Image
 import os
 
-# Define the color mapping according to the LABEL_COLORS_LIST
+# Define the color mapping according to the LABEL_COLORS_LIST (feel free to choose any color code)
 LABEL_COLORS_LIST = [
                     [0, 0, 0],       # Class 0: black for background 
                     [204, 0, 0],     # Class 1: red for visibly poor house  
