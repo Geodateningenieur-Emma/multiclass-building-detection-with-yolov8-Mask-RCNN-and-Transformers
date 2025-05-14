@@ -4,16 +4,20 @@ Created on Wed Dec 18 12:15:36 2024
 
 @author: enyandwi7@gmail.com
 
-Traditional buidling deetction is limited to extracting shapes. But we could also extend ther application to multi class building detection.
-in that case we need multi class labels to train a model which not only localise and delineate buildings, but also assign
-a class to each building. In our case we are interested in detecting building according to perceived wealth class from above.
-
-Having shapefile of buildings we want to have a classified maps for training our model.
-The code intends to extract roof crops of buildings that can be classified into wealth categories they belong to based on 
-visual perceptions. After we create a dataframe of patches ID and class that can be joined with shapefile attribute table.
-The resulting shapefile now has both roof shapes and their classes.   
+Traditional building detection methods typically focus on identifying and extracting building shapes. 
+However, this process can be extended to multi-class building detection, where each building is not only localised and delineated but also assigned a specific category.
+In this study, we aim to classify buildings based on perceived wealth levels using aerial imagery. 
+To train such a model, multi-class labels are required.
+Given a shapefile containing building footprints, our objective is to create a classified map for training. 
+The approach involves extracting cropped images of rooftops, which are then categorised according to visually perceived indicators of wealth by the expert group. 
+Each rooftop is assigned a unique identifier (bID) to ensure accurate tracking throughout the process.
+Finally, a dataframe is generated containing each rooftop’s bID and its corresponding class label. 
+This ID is then used to link class information back to the original building shapes in the shapefile. 
+The resulting shapefile includes both the geometry of each building and its assigned wealth category.   
 
 """
+""" Ensure you install ina import the necessary libraries, mainly rasterio and geopandas. 
+There are many tutorials on this, such as https://www.youtube.com/watch?v=orRBc2i1joQ """
 
 import geopandas as gpd
 import rasterio
