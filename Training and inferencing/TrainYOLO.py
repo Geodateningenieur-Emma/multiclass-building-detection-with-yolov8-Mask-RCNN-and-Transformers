@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sat May  3 23:33:49 2025
+@author: enyandwi7@gmail.com
 
-@author: enyan
+In this code, we train our yolo model using K-Fold cross-validation instead of a train-validation split. 
 """
 
 #K-Fold cross validation
@@ -21,18 +22,18 @@ import glob, os
 from PIL import Image
 
 
-# move data in one folders 
+# Move data in one folder, e.g., "annotation"
 
 import os
 import shutil
 import glob
 
-source_folder_path = "C:/dl/MT/TrainSet2/set/yolo"
+source_folder_path = "./TrainValid"
 splits = ["train", "valid"]
 types = ["images/*.tif", "labels/*.txt"]
 
-TARGET_IMAGES_PATH = "C:/destination/images"
-TARGET_LABELS_PATH = "C:/destination/labels"
+TARGET_IMAGES_PATH = "./annotation/images"
+TARGET_LABELS_PATH = "./annotation/labels"
 
 os.makedirs(TARGET_IMAGES_PATH, exist_ok=True)
 os.makedirs(TARGET_LABELS_PATH, exist_ok=True)
@@ -61,16 +62,16 @@ label_paths = glob.glob(os.path.join(TARGET_LABELS_PATH, "*.txt"))
 print(image_paths)
 
 #Get classes from existing YAML file
-dataset_path = Path('C:/destination') # replace with 'path/to/dataset' for your custom data
+dataset_path = Path('./TrainValid') # replace with 'path/to/dataset' for your custom data
 labels = sorted(dataset_path.rglob("*labels/*.txt")) # all data in 'labels'
 
-yaml_file = 'C:/dl/MT/TrainSet2/set/yolo/data.yaml'  # your data YAML with data directories and names dictionary
+yaml_file = './TrainValid/data.yaml'  # your data YAML with data directories and names dictionary
 with open(yaml_file, 'r', encoding="utf8") as y:
     classes = yaml.safe_load(y)['names']
 cls_idx = list(range(len(classes)))
 print(list(zip(classes, cls_idx)))
 
-#Generate DataFrame to calculate Label Distribution
+#Generate a DataFrame to calculate Label Distribution
 #For each image, label_df contains the number of objects of each class.
 
 indx = [l.stem for l in labels] # uses base filename as ID (no extension)
@@ -112,7 +113,7 @@ for n, (train_indices, val_indices) in enumerate(kfolds, start=1):
 fold_lbl_distrb
 
 #Generating YAML and text files for K-Fold Cross-Validation
-kfold_base_path = Path('E:/MT/TilesKigali2022/kfold')
+kfold_base_path = Path('./kfold')
 shutil.rmtree(kfold_base_path) if kfold_base_path.is_dir() else None # Remove existing folder
 os.makedirs(str(kfold_base_path)) # Create nww folder
 yaml_paths = list()
@@ -149,8 +150,8 @@ print(yaml_paths)
 
 #Show a YAML file and corresponding train image paths
 
-yaml_path = 'E:/MT/TilesKigali2022/kfold/data_0.yaml'  # Update with your file path
-train_txt_path = 'E:/MT/TilesKigali2022/kfold/train_0.txt' 
+yaml_path = './kfold/data_0.yaml'  # Update with your file path
+train_txt_path = './kfold/train_0.txt' 
 # Print the content of the YAML file
 print(f"{yaml_path} File:\n")
 with open(yaml_path, 'r', encoding='utf-8') as file:
@@ -163,34 +164,34 @@ with open(train_txt_path, 'r', encoding='utf-8') as file:
     lines = file.readlines()
     print(''.join(lines[:2]))  # Print the first two lines
 
-save_path = Path('E:/MT/TilesKigali2022/kfold/')
+save_path = Path('./kfold/')
 os.makedirs(str(save_path), exist_ok=True)
 fold_lbl_distrb.to_csv(save_path / "kfold_label_distribution.csv")
 
+##########################Now train your model ############################################################
 
 from IPython.display import clear_output
 import os
 from ultralytics import YOLO
 
-# Set working directory
-os.chdir('C:/dl/MT/TrainSet2/set/yolo')
+# Set working directory where training results will be stored
+os.chdir('./YOLOtrained')  
 
 # Load pretrained YOLO model
 model = YOLO('yolov8n-seg.yaml').load('yolov8n-seg.pt')
 
-batch = 8
-project = 'kfold_demo'
-epochs = 1
-
+batch = 4
+project = 'kfold_yolo_training'
+epochs = 100
 results = []
 
 # Loop through each fold
 for i in range(ksplit):
     # Construct full path using os.path.join
-    dataset_yaml = os.path.join('E:/MT/TilesKigali2022/kfold', yaml_paths[i])
+    dataset_yaml = os.path.join('./kfold', yaml_paths[i])
     
     # Print current training fold information
-    print(f"Training for fold={i} using {dataset_yaml}")
+    #print(f"Training for fold={i} using {dataset_yaml}")
     
     # Check if the file exists before training
     if os.path.isfile(dataset_yaml):
