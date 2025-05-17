@@ -5,7 +5,7 @@ import glob
 import torch
 import multiprocessing
 from transformers import Mask2FormerForUniversalSegmentation, Mask2FormerImageProcessor
-from config import VIS_LABEL_MAP as LABEL_COLORS_LIST
+from config LABEL_COLORS_LIST
 from utils import draw_segmentation_map, image_overlay, predict
 
 # Argument parsing
