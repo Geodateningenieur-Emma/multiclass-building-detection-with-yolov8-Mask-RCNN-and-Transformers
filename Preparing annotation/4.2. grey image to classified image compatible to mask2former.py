@@ -15,8 +15,8 @@ import os
 # Define the color mapping according to the LABEL_COLORS_LIST (feel free to choose any color code)
 LABEL_COLORS_LIST = [
                     [0, 0, 0],       # Class 0: black for background 
-                    [204, 0, 0],     # Class 1: red for visibly poor house  
-                    [179, 179, 255]  # Class 2: Blue for high wealth      
+                    [205, 0, 0],     # Class 1: red for visibly poor house  
+                    [0, 0, 205]  # Class 2: Blue for high wealth      
                     ]
 def convert_tif_to_png(tif_path, png_path):
     """Convert a single TIFF image to PNG with colored labels."""
