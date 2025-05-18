@@ -14,7 +14,7 @@ This stage includes a multi-step process:
    
  - **Self-Training Using Pseudo-Labeling**    
 Due to scalability limitations in manual annotation:
-  - A [self-training approach was implemented using a YOLO classifier pre-trained on ImageNet](https://github.com/enyandwi7/Housing-wealth-mapping-with-YOLO-and-Mask2Former-multiclass-instance-segmentation/blob/main/Preparing%20annotation/2.%20Self-Training.py).
+  - A [self-training approach was implemented using a YOLO classifier pre-trained on ImageNet](https://github.com/enyandwi7/Housing-wealth-mapping-with-YOLO-and-Mask2Former-multiclass-instance-segmentation/blob/main/Preparing%20annotation/2.%20Self-Training.py).You can install YOLO using the [Ultralytics](https://docs.ultralytics.com/quickstart/) library
   - Pseudo-labels were generated for unlabeled samples with a confidence threshold of 0.9, iterated over 3 cycles.
   - Final predictions (bID, class) were saved to a CSV and merged back with the original shapefile.
     
