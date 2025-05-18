@@ -6,7 +6,7 @@ Created on Tue Apr  2 11:54:06 2024
 @author: enyandwi7@gmail.com
 
 THIS CODE IS USED TO CONVERT SHAPEFILE TO A MULTI-CLASS GRAY IMAGE. 
-    
+AFTER WE USE GDAL RETILE CLI TO GENERATE PATCHES.    
 """
 
 #Prepare data 
